@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Alone.Online</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #000; }
+    #ui {
+      position: absolute;
+      top: 25%;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: monospace;
+      z-index: 10;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      transition: opacity 0.2s;
+    }
+    #subtitle {
+      font-size: 1.2rem;
+      margin-top: -5px;
+      opacity: 0.7;
+      letter-spacing: 1px;
+      transition: opacity 0.2s;
+    }
+    button {
+      background: #111;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: #222;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
 
+  <!-- UI Overlay -->
+  <div id="ui">
+    <h1 id="title">Alone.Online</h1>
+    <p id="subtitle">Can you trust him?</p>
+    <button id="startBtn">Start</button>
+    <button id="settingsBtn">Settings</button>
+    <button id="exitBtn">Exit</button>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 1.5, 6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Room (dark box)
+    const roomGeo = new THREE.BoxGeometry(10, 6, 10);
+    const roomMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0a12,
+      side: THREE.BackSide
+    });
+    const room = new THREE.Mesh(roomGeo, roomMat);
+    scene.add(room);
+
+    // Computer screen (glowing plane)
+    const screenGeo = new THREE.PlaneGeometry(1.5, 1.1);
+    const screenMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const screen = new THREE.Mesh(screenGeo, screenMat);
+    screen.position.set(-3, 1.5, -3);
+    screen.rotation.y = Math.PI / 4;
+    scene.add(screen);
+
+    // Flicker effect
+    function flicker() {
+      const intensity = Math.random() * 0.8 + 0.2;
+      screenMat.color.setRGB(intensity, intensity, intensity);
+    }
+    setInterval(flicker, 60);
+
+    // Light from the computer
+    const screenLight = new THREE.PointLight(0xffffff, 1, 10);
+    screenLight.position.set(-3, 1.5, -3);
+    scene.add(screenLight);
+
+    // Girl silhouette (placeholder)
+    const girlGeo = new THREE.BoxGeometry(1, 1.6, 0.6);
+    const girlMat = new THREE.MeshStandardMaterial({
+      color: 0x111111,
+      roughness: 1
+    });
+    const girl = new THREE.Mesh(girlGeo, girlMat);
+    girl.position.set(-3.5, 0.8, -3.5);
+    scene.add(girl);
+
+    // Subtle breathing animation
+    function animateGirl() {
+      girl.position.y = 0.8 + Math.sin(Date.now() * 0.001) * 0.05;
+    }
+
+    // Camera slow creep
+    function creepCamera() {
+      camera.position.z -= 0.0005;
+    }
+
+    // Title flicker
+    const title = document.getElementById('title');
+    setInterval(() => {
+      if (Math.random() < 0.03) {
+        title.style.opacity = 0.2;
+        setTimeout(() => title.style.opacity = 1, 80);
+      }
+    }, 400);
+
+    // Subtitle flicker
+    const subtitle = document.getElementById('subtitle');
+    setInterval(() => {
+      if (Math.random() < 0.02) {
+        subtitle.style.opacity = 0.2;
+        setTimeout(() => subtitle.style.opacity = 0.7, 120);
+      }
+    }, 500);
+
+    // Render loop
+    function animate() {
+      requestAnimationFrame(animate);
+      animateGirl();
+      creepCamera();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handling
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+</body>
+</html>
