@@ -1,167 +1,103 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Alone.Online</title>
-
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: #000;
-      font-family: monospace;
-    }
-
-    #scene {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* BACKGROUND ROOM */
-    #background {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    /* IVIE STILL VISIBLE */
-    #girl {
-      position: absolute;
-      right: 5%;
-      bottom: 5%;
-      width: 28%; /* slightly smaller so computer can be bigger */
-      z-index: 2;
-      opacity: 0.95;
-    }
-
-    /* COMPUTER NOW COVERS MOST OF SCREEN */
-    #computer {
-      position: absolute;
-      left: 0%;
-      bottom: 10%;
-      width: 70%; /* HUGE computer */
-      z-index: 3;
-      transform: rotate(-4deg);
-    }
-
-    /* UI ON COMPUTER SCREEN */
-    #screen-ui {
-      position: absolute;
-      left: 18%;     /* adjusted for bigger computer */
-      bottom: 45%;   /* adjusted for bigger computer */
-      width: 22%;    /* scaled up to fit screen */
-      z-index: 4;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transform: rotate(-4deg);
-      text-align: center;
-    }
-
-    button {
-      background: #111;
-      color: #fff;
-      border: 1px solid #444;
-      padding: 12px 20px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    button:hover {
-      background: #222;
-      transform: scale(1.05);
-    }
-
-    /* WARNING */
-    #warning {
-      color: #ff4444;
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 5px;
-    }
-
-    /* TITLE */
-    #title {
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      font-size: 3rem;
-      letter-spacing: 2px;
-      z-index: 5;
-      text-shadow: 0 0 10px #fff;
-    }
-
-    /* Subtitle */
-    #subtitle {
-      position: absolute;
-      top: 13%;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #ccc;
-      font-size: 1.2rem;
-      opacity: 0.7;
-      z-index: 5;
-    }
-
-  </style>
-</head>
-
-<body>
-
-  <div id="scene">
-
-    <img id="background" src="room_bg.png">
-    <img id="girl" src="ivie_crying.png">
-    <img id="computer" src="computer_left_angle.png">
-
-    <h1 id="title">Alone.Online</h1>
-    <p id="subtitle">Can you trust him?</p>
-
-    <div id="screen-ui">
-      <button id="playBtn">Play</button>
-      <button id="settingsBtn">Settings</button>
-      <button id="exitBtn">Exit</button>
-      <p id="warning">⚠ Bright colours and flashing lights</p>
+<div id="crt">
+  <div id="frame">
+    <div id="screen"></div>
+    <div id="stickers">
+      <div class="sticker heart"></div>
+      <div class="sticker circle"></div>
     </div>
-
   </div>
 
-  <script>
-    const title = document.getElementById("title");
-    setInterval(() => {
-      if (Math.random() < 0.03) {
-        title.style.opacity = 0.2;
-        setTimeout(() => title.style.opacity = 1, 80);
-      }
-    }, 400);
+  <div id="keyboard"></div>
+  <div id="mouse"></div>
+</div>
 
-    const subtitle = document.getElementById("subtitle");
-    setInterval(() => {
-      if (Math.random() < 0.02) {
-        subtitle.style.opacity = 0.2;
-        setTimeout(() => subtitle.style.opacity = 0.7, 120);
-      }
-    }, 500);
+<style>
+  body {
+    background: #000;
+  }
 
-    document.getElementById("playBtn").onclick = () => {
-      alert("Game starting soon…");
-    };
+  #crt {
+    position: relative;
+    width: 500px;
+    margin: 40px auto;
+  }
 
-    document.getElementById("settingsBtn").onclick = () => {
-      alert("Settings coming soon…");
-    };
+  /* MONITOR FRAME */
+  #frame {
+    width: 420px;
+    height: 320px;
+    background: #2a2a2a; /* dead-tech dark grey */
+    border-radius: 12px;
+    border: 6px solid #1a1a1a;
+    box-shadow:
+      inset 0 0 20px #111,
+      0 0 40px #000;
+    position: relative;
+  }
 
-    document.getElementById("exitBtn").onclick = () => {
-      alert("Exit not implemented yet.");
-    };
-  </script>
+  /* SCREEN */
+  #screen {
+    width: 300px;
+    height: 220px;
+    background: #111;
+    border: 4px solid #0d0d0d;
+    margin: 40px auto;
+    box-shadow:
+      inset 0 0 25px #000,
+      inset 0 0 8px #222;
+  }
 
-</body>
-</html>
+  /* STICKERS */
+  #stickers {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+
+  .sticker {
+    width: 30px;
+    height: 30px;
+    opacity: 0.4; /* faded dead-tech */
+    filter: grayscale(100%);
+    background-size: cover;
+    background-position: center;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+
+  .heart {
+    background: linear-gradient(135deg, #555, #333);
+    clip-path: polygon(
+      50% 80%, 90% 40%, 75% 15%, 50% 30%, 25% 15%, 10% 40%
+    );
+  }
+
+  .circle {
+    background: #444;
+    border-radius: 50%;
+  }
+
+  /* KEYBOARD */
+  #keyboard {
+    width: 420px;
+    height: 80px;
+    background: #1f1f1f;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow:
+      inset 0 0 10px #000,
+      0 0 20px #000;
+  }
+
+  /* MOUSE */
+  #mouse {
+    width: 60px;
+    height: 90px;
+    background: #1c1c1c;
+    border-radius: 40px;
+    margin: 20px auto;
+    box-shadow:
+      inset 0 0 10px #000,
+      0 0 20px #000;
+  }
+</style>
