@@ -12,62 +12,53 @@
       font-family: monospace;
     }
 
-    /* Background image (your dark room with Ivie) */
-    #bg {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* MAIN SCENE */
+    #scene {
+      position: relative;
       width: 100vw;
       height: 100vh;
-      background-image: url("darkroom.png");
-      background-size: cover;
-      background-position: center;
+      overflow: hidden;
+    }
+
+    /* BACKGROUND ROOM */
+    #background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       z-index: 1;
     }
 
-    /* Flickering monitor overlay */
-    #monitor-flicker {
-      position: fixed;
-      left: 18%;   /* tuned to match your image */
-      top: 32%;
-      width: 18%;
-      height: 22%;
-      background: rgba(255,255,255,0.9);
-      mix-blend-mode: screen;
-      animation: flicker 0.08s infinite;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    @keyframes flicker {
-      0%   { opacity: 0.9; }
-      50%  { opacity: 0.3; }
-      100% { opacity: 0.8; }
-    }
-
-    /* UI */
-    #ui {
+    /* CRYING ANIME GIRL */
+    #girl {
       position: absolute;
-      top: 20%;
-      width: 100%;
-      text-align: center;
-      color: #fff;
+      right: 8%;
+      bottom: 5%;
+      width: 35%;
+      z-index: 2;
+      opacity: 0.95;
+    }
+
+    /* COMPUTER ON LEFT */
+    #computer {
+      position: absolute;
+      left: 5%;
+      bottom: 20%;
+      width: 40%;
       z-index: 3;
+      transform: rotate(-4deg);
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      transition: opacity 0.2s;
-    }
-
-    #subtitle {
-      font-size: 1.2rem;
-      margin-top: -5px;
-      opacity: 0.7;
-      letter-spacing: 1px;
-      transition: opacity 0.2s;
+    /* UI ON COMPUTER SCREEN */
+    #screen-ui {
+      position: absolute;
+      left: 14%;
+      bottom: 38%;
+      width: 20%;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     button {
@@ -75,7 +66,6 @@
       color: #fff;
       border: 1px solid #444;
       padding: 10px 20px;
-      margin: 10px;
       cursor: pointer;
       font-size: 1rem;
       transition: background 0.2s, transform 0.1s;
@@ -86,30 +76,52 @@
       transform: scale(1.05);
     }
 
-    #warning {
-      font-size: 0.9rem;
-      margin-top: 20px;
-      opacity: 0.5;
-      color: #ff4444;
-      letter-spacing: 1px;
+    /* TITLE */
+    #title {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 3rem;
+      letter-spacing: 2px;
+      z-index: 5;
+      text-shadow: 0 0 10px #fff;
     }
+
+    /* Subtitle */
+    #subtitle {
+      position: absolute;
+      top: 13%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ccc;
+      font-size: 1.2rem;
+      opacity: 0.7;
+      z-index: 5;
+    }
+
   </style>
 </head>
 
 <body>
 
-  <div id="bg"></div>
-  <div id="monitor-flicker"></div>
+  <div id="scene">
 
-  <div id="ui">
+    <!-- Replace these with your PNGs -->
+    <img id="background" src="room_bg.png">
+    <img id="girl" src="ivie_crying.png">
+    <img id="computer" src="computer_left_angle.png">
+
     <h1 id="title">Alone.Online</h1>
     <p id="subtitle">Can you trust him?</p>
 
-    <button id="startBtn">Start</button>
-    <button id="settingsBtn">Settings</button>
-    <button id="exitBtn">Exit</button>
+    <div id="screen-ui">
+      <button id="playBtn">Play</button>
+      <button id="settingsBtn">Settings</button>
+      <button id="exitBtn">Exit</button>
+    </div>
 
-    <p id="warning">⚠ Bright colours and flashing lights</p>
   </div>
 
   <script>
@@ -130,6 +142,19 @@
         setTimeout(() => subtitle.style.opacity = 0.7, 120);
       }
     }, 500);
+
+    // TEMP BUTTON ACTIONS
+    document.getElementById("playBtn").onclick = () => {
+      alert("Game starting soon…");
+    };
+
+    document.getElementById("settingsBtn").onclick = () => {
+      alert("Settings coming soon…");
+    };
+
+    document.getElementById("exitBtn").onclick = () => {
+      alert("Exit not implemented yet.");
+    };
   </script>
 
 </body>
