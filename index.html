@@ -12,7 +12,6 @@
       font-family: monospace;
     }
 
-    /* MAIN SCENE */
     #scene {
       position: relative;
       width: 100vw;
@@ -29,22 +28,22 @@
       z-index: 1;
     }
 
-    /* IVIE IN CORNER */
+    /* IVIE STILL VISIBLE */
     #girl {
       position: absolute;
-      right: 8%;
+      right: 5%;
       bottom: 5%;
-      width: 35%;
+      width: 28%; /* slightly smaller so computer can be bigger */
       z-index: 2;
       opacity: 0.95;
     }
 
-    /* COMPUTER ON LEFT */
+    /* COMPUTER NOW COVERS MOST OF SCREEN */
     #computer {
       position: absolute;
-      left: 5%;
-      bottom: 20%;
-      width: 40%;
+      left: 0%;
+      bottom: 10%;
+      width: 70%; /* HUGE computer */
       z-index: 3;
       transform: rotate(-4deg);
     }
@@ -52,14 +51,14 @@
     /* UI ON COMPUTER SCREEN */
     #screen-ui {
       position: absolute;
-      left: 13.5%;     /* tuned to match your monitor */
-      bottom: 43%;     /* tuned to match your monitor */
-      width: 17%;      /* fits inside the screen */
+      left: 18%;     /* adjusted for bigger computer */
+      bottom: 45%;   /* adjusted for bigger computer */
+      width: 22%;    /* scaled up to fit screen */
       z-index: 4;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      transform: rotate(-4deg); /* matches monitor angle */
+      gap: 12px;
+      transform: rotate(-4deg);
       text-align: center;
     }
 
@@ -67,9 +66,9 @@
       background: #111;
       color: #fff;
       border: 1px solid #444;
-      padding: 10px 20px;
+      padding: 12px 20px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       transition: background 0.2s, transform 0.1s;
     }
 
@@ -78,10 +77,10 @@
       transform: scale(1.05);
     }
 
-    /* WARNING TEXT */
+    /* WARNING */
     #warning {
       color: #ff4444;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       opacity: 0.8;
       margin-top: 5px;
     }
@@ -118,7 +117,6 @@
 
   <div id="scene">
 
-    <!-- Replace these with your PNGs -->
     <img id="background" src="room_bg.png">
     <img id="girl" src="ivie_crying.png">
     <img id="computer" src="computer_left_angle.png">
@@ -126,20 +124,16 @@
     <h1 id="title">Alone.Online</h1>
     <p id="subtitle">Can you trust him?</p>
 
-    <!-- UI now sits ON the computer screen -->
     <div id="screen-ui">
       <button id="playBtn">Play</button>
       <button id="settingsBtn">Settings</button>
       <button id="exitBtn">Exit</button>
-
-      <!-- WARNING KEPT -->
       <p id="warning">⚠ Bright colours and flashing lights</p>
     </div>
 
   </div>
 
   <script>
-    // Title flicker
     const title = document.getElementById("title");
     setInterval(() => {
       if (Math.random() < 0.03) {
@@ -148,7 +142,6 @@
       }
     }, 400);
 
-    // Subtitle flicker
     const subtitle = document.getElementById("subtitle");
     setInterval(() => {
       if (Math.random() < 0.02) {
@@ -157,7 +150,6 @@
       }
     }, 500);
 
-    // TEMP BUTTON ACTIONS
     document.getElementById("playBtn").onclick = () => {
       alert("Game starting soon…");
     };
