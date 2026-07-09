@@ -29,7 +29,7 @@
       z-index: 1;
     }
 
-    /* CRYING ANIME GIRL */
+    /* IVIE IN CORNER */
     #girl {
       position: absolute;
       right: 8%;
@@ -52,13 +52,15 @@
     /* UI ON COMPUTER SCREEN */
     #screen-ui {
       position: absolute;
-      left: 14%;
-      bottom: 38%;
-      width: 20%;
+      left: 13.5%;     /* tuned to match your monitor */
+      bottom: 43%;     /* tuned to match your monitor */
+      width: 17%;      /* fits inside the screen */
       z-index: 4;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      transform: rotate(-4deg); /* matches monitor angle */
+      text-align: center;
     }
 
     button {
@@ -74,6 +76,14 @@
     button:hover {
       background: #222;
       transform: scale(1.05);
+    }
+
+    /* WARNING TEXT */
+    #warning {
+      color: #ff4444;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 5px;
     }
 
     /* TITLE */
@@ -116,10 +126,14 @@
     <h1 id="title">Alone.Online</h1>
     <p id="subtitle">Can you trust him?</p>
 
+    <!-- UI now sits ON the computer screen -->
     <div id="screen-ui">
       <button id="playBtn">Play</button>
       <button id="settingsBtn">Settings</button>
       <button id="exitBtn">Exit</button>
+
+      <!-- WARNING KEPT -->
+      <p id="warning">⚠ Bright colours and flashing lights</p>
     </div>
 
   </div>
