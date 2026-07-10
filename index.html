@@ -8,117 +8,86 @@
   body {
     background: #000;
     font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
-  #title-screen {
-    width: 400px;
-    margin: 40px auto;
-    text-align: center;
-  }
-
-  /* MONITOR */
+  /* MONITOR FRAME */
   #monitor {
-    width: 350px;
-    height: 260px;
-    background: #1a1a1a;
-    border-radius: 12px;
-    border: 6px solid #0f0f0f;
-    box-shadow: inset 0 0 20px #000;
-    margin: 0 auto;
-    position: relative;
+    width: 420px;
+    height: 300px;
+    background: #111;
+    border-radius: 14px;
+    border: 6px solid #0a0a0a;
+    box-shadow: 0 0 40px #fff, inset 0 0 40px #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* SCREEN — NOW GLOWING WHITE */
+  /* GLOWING SCREEN */
   #screen {
-    width: 260px;
-    height: 180px;
-    background: radial-gradient(circle, #ffffff 0%, #e6e6e6 25%, #0d0d0d 100%);
-    margin: 30px auto;
-    border: 4px solid #000;
+    width: 340px;
+    height: 220px;
+    background: radial-gradient(circle, #ffffff 0%, #e6e6e6 30%, #cfcfcf 45%, #111 100%);
+    border-radius: 10px;
     box-shadow:
+      0 0 60px #fff,
       inset 0 0 40px #fff,
-      inset 0 0 80px #ffffff,
-      0 0 20px #fff;
-    position: relative;
-    padding-top: 10px;
+      inset 0 0 80px #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* IVIE silhouette */
-  #ivie {
-    width: 80px;
-    height: 120px;
-    background: #222;
-    border-radius: 40px 40px 0 0;
-    margin: 0 auto 10px auto;
-    box-shadow: inset 0 0 10px #000;
+  /* CENTER OVAL (like your image) */
+  #center-oval {
+    width: 160px;
+    height: 80px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    margin-bottom: 25px;
+    box-shadow: inset 0 0 20px #000;
   }
 
-  /* UI BUTTONS — DIGITAL GLOW */
+  /* BUTTONS */
   .ui-btn {
-    display: block;
-    width: 140px;
-    margin: 6px auto;
-    padding: 6px;
-    background: rgba(255,255,255,0.15);
+    width: 180px;
+    padding: 10px;
+    margin: 8px;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 6px;
     color: #fff;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 4px;
+    font-size: 1.2em;
+    text-shadow: 0 0 10px #fff;
     cursor: pointer;
     transition: 0.2s;
-    text-shadow: 0 0 6px #fff;
   }
 
   .ui-btn:hover {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.35);
     transform: scale(1.05);
-  }
-
-  /* KEYBOARD */
-  #keyboard {
-    width: 350px;
-    height: 60px;
-    background: #1a1a1a;
-    margin: 20px auto;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px #000;
-  }
-
-  /* MOUSE */
-  #mouse {
-    width: 50px;
-    height: 80px;
-    background: #1a1a1a;
-    margin: 20px auto;
-    border-radius: 40px;
-    box-shadow: inset 0 0 10px #000;
   }
 </style>
 </head>
 
 <body>
-<div id="title-screen">
 
-  <!-- CRT Monitor -->
-  <div id="monitor">
-    <div id="screen">
+<div id="monitor">
+  <div id="screen">
 
-      <!-- IVIE silhouette -->
-      <div id="ivie"></div>
+    <div id="center-oval"></div>
 
-      <!-- UI BUTTONS -->
-      <button class="ui-btn">Play</button>
-      <button class="ui-btn">Settings</button>
-      <button class="ui-btn">Exit</button>
+    <button class="ui-btn">Play</button>
+    <button class="ui-btn">Settings</button>
+    <button class="ui-btn">Exit</button>
 
-    </div>
   </div>
-
-  <!-- Keyboard -->
-  <div id="keyboard"></div>
-
-  <!-- Mouse -->
-  <div id="mouse"></div>
-
 </div>
+
 </body>
 </html>
