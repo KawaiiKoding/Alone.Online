@@ -2,121 +2,171 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Alone.Online</title>
-
+<title>Ivie – Summer’s Over</title>
 <style>
   body {
-    background: #000;
-    font-family: monospace;
     margin: 0;
+    background: #000000; /* EXACT black bg */
+    color: #ffffff;
+    font-family: system-ui, sans-serif;
     overflow: hidden;
   }
 
-  /* MENU */
-  #menu {
-    text-align: center;
-    margin-top: 20vh;
-  }
-
-  .btn {
-    display: block;
-    width: 200px;
-    padding: 12px;
-    margin: 12px auto;
-    background: #111;
-    color: #fff;
-    border: 2px solid #333;
-    border-radius: 6px;
-    font-size: 1.3em;
-    cursor: pointer;
+  #stage {
     position: relative;
-    transition: 0.2s;
+    width: 100vw;
+    height: 100vh;
+    background: #000000; /* keep it solid black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .btn:hover::before {
-    content: ">>>";
+  .ivie {
+    width: 220px;
+    height: 220px;
+    border-radius: 999px;
+    background: #202020;
+    position: relative;
+    box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .ivie-face {
+    width: 140px;
+    height: 140px;
+    border-radius: 999px;
+    background: #f5c7a8;
+    position: relative;
+  }
+
+  .ivie-eye {
     position: absolute;
-    left: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #fff;
-    font-weight: bold;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #000;
+    top: 45px;
+  }
+  .ivie-eye.left { left: 35px; }
+  .ivie-eye.right { right: 35px; }
+
+  .ivie-mouth {
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    border-radius: 0 0 60px 60px;
+    background: #ff3b3b;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* States */
+  .sleep {
+    transform: translateY(40px) scale(0.9);
+    opacity: 0.7;
+  }
+  .sleep .ivie-eye {
+    height: 6px;
+    top: 55px;
+    border-radius: 999px;
+  }
+  .sleep .ivie-mouth {
+    height: 10px;
+    background: #000;
+  }
+
+  .sit {
+    transform: translateY(0) scale(1);
     opacity: 0.9;
   }
 
-  .btn:hover {
-    background: #222;
-    transform: scale(1.05);
+  .room {
+    box-shadow: 0 0 80px rgba(120,180,255,0.4);
   }
 
-  /* SCENE */
-  #scene {
-    display: none;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    background: #000;
+  .shocked .ivie-eye {
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+    border: 4px solid #000;
+  }
+  .shocked .ivie-mouth {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: #ff3b3b;
   }
 
-  #background {
+  /* Dialogue box */
+  #dialogue {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    z-index: -1;
-  }
-
-  #sprite {
-    position: absolute;
+    bottom: 40px;
     left: 50%;
-    top: 35%;
     transform: translateX(-50%);
-    width: 300px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #ff4b4b;
+    color: #ffffff;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
 
-  #dialogueBox {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: #000;
-    border-top: 2px solid #444;
-    padding: 20px;
-    color: #fff;
-    font-size: 1.2em;
-  }
-
-  #speaker {
-    color: #ff6b6b;
-    font-weight: bold;
+  #dialogue span.name {
+    color: #ff4b4b;
+    font-weight: 700;
+    margin-right: 6px;
   }
 </style>
 </head>
-
 <body>
+<div id="stage">
+  <div id="ivie" class="ivie sleep">
+    <div class="ivie-face">
+      <div class="ivie-eye left"></div>
+      <div class="ivie-eye right"></div>
+      <div class="ivie-mouth"></div>
+    </div>
+  </div>
 
-<!-- MENU -->
-<div id="menu">
-  <button class="btn" id="playBtn">Play</button>
-  <button class="btn">Settings</button>
-  <button class="btn">Exit</button>
-</div>
-
-<!-- SCENE -->
-<div id="scene">
-  <img id="background" src="">
-  <img id="sprite" src="">
-  <div id="dialogueBox">
-    <span id="speaker">YOU</span>: <span id="dialogueText">...</span>
+  <div id="dialogue">
+    <span class="name">Ivie:</span>
+    <span class="line">Summer's over already!?</span>
   </div>
 </div>
 
 <script>
-  const menu = document.getElementById("menu");
-  const scene = document.getElementById("scene");
-  const sprite = document.getElementById("sprite");
-  const background = document.getElementById("background");
-  const speaker = document.getElementById("speaker");
-  const dialogueText = document.getElementById("dialogueText");
+  // Sequence: Sleep -> Sit -> Room -> Shocked + dialogue
+  const ivie = document.getElementById('ivie');
+  const dialogue = document.getElementById('dialogue');
 
-  // BASE64 IMAGES YOU PROVIDED
-  const ROOM = "data:image/png;base64,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
+  function setState(classes) {
+    ivie.className = 'ivie ' + classes.join(' ');
+  }
+
+  // Sleep (already set)
+  setTimeout(() => {
+    // Sit
+    setState(['sit']);
+  }, 1200);
+
+  setTimeout(() => {
+    // Room (same bg, just aura)
+    setState(['sit', 'room']);
+  }, 2400);
+
+  setTimeout(() => {
+    // Shocked Ivie in room
+    setState(['room', 'shocked']);
+    dialogue.style.opacity = '1';
+  }, 3600);
+</script>
+</body>
+</html>
