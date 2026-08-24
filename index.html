@@ -49,19 +49,27 @@
     transform: scale(1.05);
   }
 
-  /* DIALOGUE SCENE */
+  /* SCENE */
   #scene {
     display: none;
     width: 100vw;
     height: 100vh;
     position: relative;
-    background: #111;
+    background: #000;
   }
 
-  #ivie {
+  #background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  #sprite {
     position: absolute;
     left: 50%;
-    top: 20%;
+    top: 35%;
     transform: translateX(-50%);
     width: 300px;
   }
@@ -93,56 +101,91 @@
   <button class="btn">Exit</button>
 </div>
 
-<!-- DIALOGUE SCENE -->
+<!-- SCENE -->
 <div id="scene">
-  <!-- Replace this with your Base64 sprite later -->
-  <img id="ivie" src="" alt="Ivie">
-
+  <img id="background" src="">
+  <img id="sprite" src="">
   <div id="dialogueBox">
     <span id="speaker">YOU</span>: <span id="dialogueText">...</span>
   </div>
 </div>
 
 <script>
-  // --- SIMPLE DIALOGUE SYSTEM ---
-  const playBtn = document.getElementById("playBtn");
   const menu = document.getElementById("menu");
   const scene = document.getElementById("scene");
-  const dialogueText = document.getElementById("dialogueText");
+  const sprite = document.getElementById("sprite");
+  const background = document.getElementById("background");
   const speaker = document.getElementById("speaker");
-  const ivie = document.getElementById("ivie");
+  const dialogueText = document.getElementById("dialogueText");
 
-  // Example shocked dialogue
-  const dialogue = [
-    { speaker: "YOU", text: "Oh my!" },
-    { speaker: "Ivie", text: "Wh— what was that…?" },
-    { speaker: "Ivie", text: "Did something just move behind you?" },
-    { speaker: "YOU", text: "I… I didn’t see anything." },
-    { speaker: "Ivie", text: "No. No no no— I swear I saw it." }
+  // --- WAKE UP SCENE USING YOUR IMAGES ---
+  const wakeUpScene = [
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SLEEP_BASE64",
+      speaker: "Narrator",
+      text: "..."
+    },
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SLEEP_BASE64",
+      speaker: "Narrator",
+      text: "A faint hum fills the room."
+    },
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SLEEP_BASE64",
+      speaker: "Narrator",
+      text: "PixelIvie stirs in her sleep..."
+    },
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SIT_BASE64",
+      speaker: "Ivie",
+      text: "Mmnh...?"
+    },
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SIT_BASE64",
+      speaker: "Narrator",
+      text: "She slowly opens her eyes."
+    },
+    {
+      bg: "PASTE_ROOM_BASE64",
+      sprite: "PASTE_IVIE_SIT_BASE64",
+      speaker: "Ivie",
+      text: "Where... am I?"
+    }
   ];
 
-  let index = 0;
+  let wakeIndex = 0;
 
-  playBtn.onclick = () => {
+  function startWakeUpScene() {
     menu.style.display = "none";
     scene.style.display = "block";
-
-    // TEMP IMAGE (you will replace with Base64 later)
-    ivie.src = "https://i.imgur.com/4AiXzf8.jpeg"; // placeholder anime girl
-    nextDialogue();
-  };
-
-  function nextDialogue() {
-    const line = dialogue[index];
-    speaker.textContent = line.speaker;
-    dialogueText.textContent = line.text;
-
-    index++;
-    if (index >= dialogue.length) index = dialogue.length - 1;
+    wakeIndex = 0;
+    showWakeFrame();
   }
 
-  // Click anywhere to continue dialogue
-  scene.onclick = nextDialogue;
+  function showWakeFrame() {
+    const frame = wakeUpScene[wakeIndex];
+
+    background.src = frame.bg;
+    sprite.src = frame.sprite;
+    speaker.textContent = frame.speaker;
+    dialogueText.textContent = frame.text;
+
+    wakeIndex++;
+    if (wakeIndex >= wakeUpScene.length) {
+      wakeIndex = wakeUpScene.length - 1;
+    }
+  }
+
+  // Click to advance wake-up scene
+  scene.onclick = showWakeFrame;
+
+  // Replace Play button action
+  document.getElementById("playBtn").onclick = startWakeUpScene;
 </script>
 
 </body>
