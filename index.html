@@ -8,14 +8,14 @@
   body {
     background: #000;
     font-family: monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    margin: 0;
+    overflow: hidden;
   }
 
+  /* MENU */
   #menu {
     text-align: center;
+    margin-top: 20vh;
   }
 
   .btn {
@@ -33,7 +33,6 @@
     transition: 0.2s;
   }
 
-  /* HOVER EFFECT: >>> appears behind the button */
   .btn:hover::before {
     content: ">>>";
     position: absolute;
@@ -49,16 +48,102 @@
     background: #222;
     transform: scale(1.05);
   }
+
+  /* DIALOGUE SCENE */
+  #scene {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: #111;
+  }
+
+  #ivie {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    width: 300px;
+  }
+
+  #dialogueBox {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    border-top: 2px solid #444;
+    padding: 20px;
+    color: #fff;
+    font-size: 1.2em;
+  }
+
+  #speaker {
+    color: #ff6b6b;
+    font-weight: bold;
+  }
 </style>
 </head>
 
 <body>
 
+<!-- MENU -->
 <div id="menu">
-  <button class="btn">Play</button>
+  <button class="btn" id="playBtn">Play</button>
   <button class="btn">Settings</button>
   <button class="btn">Exit</button>
 </div>
+
+<!-- DIALOGUE SCENE -->
+<div id="scene">
+  <!-- Replace this with your Base64 sprite later -->
+  <img id="ivie" src="" alt="Ivie">
+
+  <div id="dialogueBox">
+    <span id="speaker">YOU</span>: <span id="dialogueText">...</span>
+  </div>
+</div>
+
+<script>
+  // --- SIMPLE DIALOGUE SYSTEM ---
+  const playBtn = document.getElementById("playBtn");
+  const menu = document.getElementById("menu");
+  const scene = document.getElementById("scene");
+  const dialogueText = document.getElementById("dialogueText");
+  const speaker = document.getElementById("speaker");
+  const ivie = document.getElementById("ivie");
+
+  // Example shocked dialogue
+  const dialogue = [
+    { speaker: "YOU", text: "Oh my!" },
+    { speaker: "Ivie", text: "Wh— what was that…?" },
+    { speaker: "Ivie", text: "Did something just move behind you?" },
+    { speaker: "YOU", text: "I… I didn’t see anything." },
+    { speaker: "Ivie", text: "No. No no no— I swear I saw it." }
+  ];
+
+  let index = 0;
+
+  playBtn.onclick = () => {
+    menu.style.display = "none";
+    scene.style.display = "block";
+
+    // TEMP IMAGE (you will replace with Base64 later)
+    ivie.src = "https://i.imgur.com/4AiXzf8.jpeg"; // placeholder anime girl
+    nextDialogue();
+  };
+
+  function nextDialogue() {
+    const line = dialogue[index];
+    speaker.textContent = line.speaker;
+    dialogueText.textContent = line.text;
+
+    index++;
+    if (index >= dialogue.length) index = dialogue.length - 1;
+  }
+
+  // Click anywhere to continue dialogue
+  scene.onclick = nextDialogue;
+</script>
 
 </body>
 </html>
