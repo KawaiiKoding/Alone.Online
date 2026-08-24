@@ -2,171 +2,103 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ivie – Summer’s Over</title>
+<title>Alone.Online</title>
+
 <style>
   body {
     margin: 0;
-    background: #000000; /* EXACT black bg */
-    color: #ffffff;
-    font-family: system-ui, sans-serif;
+    background: #000;
     overflow: hidden;
+    font-family: monospace;
   }
 
   #stage {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background: #000000; /* keep it solid black */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ivie {
-    width: 220px;
-    height: 220px;
-    border-radius: 999px;
-    background: #202020;
-    position: relative;
-    box-shadow: 0 0 40px rgba(255,255,255,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-  }
-
-  .ivie-face {
-    width: 140px;
-    height: 140px;
-    border-radius: 999px;
-    background: #f5c7a8;
-    position: relative;
-  }
-
-  .ivie-eye {
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
     background: #000;
-    top: 45px;
-  }
-  .ivie-eye.left { left: 35px; }
-  .ivie-eye.right { right: 35px; }
-
-  .ivie-mouth {
-    position: absolute;
-    width: 60px;
-    height: 30px;
-    border-radius: 0 0 60px 60px;
-    background: #ff3b3b;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* States */
+  #ivie {
+    width: 260px;
+    image-rendering: pixelated;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  /* STATES */
   .sleep {
-    transform: translateY(40px) scale(0.9);
     opacity: 0.7;
-  }
-  .sleep .ivie-eye {
-    height: 6px;
-    top: 55px;
-    border-radius: 999px;
-  }
-  .sleep .ivie-mouth {
-    height: 10px;
-    background: #000;
+    transform: scale(0.9) translateY(20px);
   }
 
   .sit {
-    transform: translateY(0) scale(1);
-    opacity: 0.9;
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 
   .room {
-    box-shadow: 0 0 80px rgba(120,180,255,0.4);
+    filter: drop-shadow(0 0 20px #7ab8ff);
   }
 
-  .shocked .ivie-eye {
-    width: 30px;
-    height: 30px;
-    background: #ffffff;
-    border: 4px solid #000;
-  }
-  .shocked .ivie-mouth {
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    background: #ff3b3b;
+  .shocked {
+    filter: drop-shadow(0 0 30px #ff4b4b);
   }
 
-  /* Dialogue box */
+  /* Dialogue */
   #dialogue {
     position: absolute;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 12px 18px;
-    border-radius: 8px;
     background: rgba(0,0,0,0.8);
     border: 2px solid #ff4b4b;
-    color: #ffffff;
-    font-size: 18px;
-    letter-spacing: 0.03em;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 20px;
     opacity: 0;
     transition: opacity 0.4s ease;
   }
 
-  #dialogue span.name {
+  #dialogue .name {
     color: #ff4b4b;
-    font-weight: 700;
-    margin-right: 6px;
+    font-weight: bold;
   }
 </style>
 </head>
+
 <body>
 <div id="stage">
-  <div id="ivie" class="ivie sleep">
-    <div class="ivie-face">
-      <div class="ivie-eye left"></div>
-      <div class="ivie-eye right"></div>
-      <div class="ivie-mouth"></div>
-    </div>
-  </div>
+
+  <!-- YOUR PIXEL IVIE SPRITE -->
+  <img id="ivie" class="sleep"
+       src="data:image/png;base64,PASTE_YOUR_PIXEL_IVIE_BASE64_HERE">
 
   <div id="dialogue">
     <span class="name">Ivie:</span>
     <span class="line">Summer's over already!?</span>
   </div>
+
 </div>
 
 <script>
-  // Sequence: Sleep -> Sit -> Room -> Shocked + dialogue
   const ivie = document.getElementById('ivie');
   const dialogue = document.getElementById('dialogue');
 
-  function setState(classes) {
-    ivie.className = 'ivie ' + classes.join(' ');
+  function setState(list) {
+    ivie.className = list.join(' ');
   }
 
-  // Sleep (already set)
+  // Sleep → Sit → Room → Shocked + Dialogue
+  setTimeout(() => setState(['sit']), 1200);
+  setTimeout(() => setState(['sit', 'room']), 2400);
   setTimeout(() => {
-    // Sit
-    setState(['sit']);
-  }, 1200);
-
-  setTimeout(() => {
-    // Room (same bg, just aura)
-    setState(['sit', 'room']);
-  }, 2400);
-
-  setTimeout(() => {
-    // Shocked Ivie in room
     setState(['room', 'shocked']);
-    dialogue.style.opacity = '1';
+    dialogue.style.opacity = 1;
   }, 3600);
 </script>
+
 </body>
 </html>
