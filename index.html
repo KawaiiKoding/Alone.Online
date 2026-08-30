@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Alone.Online</title>
+
 <style>
   body {
     margin: 0;
     background: #000;
-    color: #fff;
-    font-family: system-ui, sans-serif;
     overflow: hidden;
+    font-family: system-ui, sans-serif;
   }
 
+  /* --- STAGE --- */
   #stage {
     position: relative;
     width: 100vw;
@@ -22,20 +23,20 @@
     justify-content: center;
   }
 
-  .ivie {
+  /* --- CIRCLE IVIE (MOOD SCENE) --- */
+  #circleIvie {
     width: 220px;
     height: 220px;
     border-radius: 999px;
     background: #202020;
-    position: relative;
-    box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
-  .ivie-face {
+  #circleIvieFace {
     width: 140px;
     height: 140px;
     border-radius: 999px;
@@ -43,7 +44,7 @@
     position: relative;
   }
 
-  .ivie-eye {
+  .eye {
     position: absolute;
     width: 26px;
     height: 26px;
@@ -51,10 +52,10 @@
     background: #000;
     top: 45px;
   }
-  .ivie-eye.left { left: 35px; }
-  .ivie-eye.right { right: 35px; }
+  .eye.left { left: 35px; }
+  .eye.right { right: 35px; }
 
-  .ivie-mouth {
+  .mouth {
     position: absolute;
     width: 60px;
     height: 30px;
@@ -66,28 +67,27 @@
   }
 
   /* Sleep state */
-  .sleep {
-    transform: translateY(40px) scale(0.9);
-    opacity: 0.7;
-  }
-  .sleep .ivie-eye {
+  .sleep .eye {
     height: 6px;
     top: 55px;
-    border-radius: 999px;
   }
-  .sleep .ivie-mouth {
+  .sleep .mouth {
     height: 10px;
     background: #000;
+  }
+  .sleep {
+    opacity: 0.7;
+    transform: translateY(40px) scale(0.9);
   }
 
   /* Sit state */
   .sit {
+    opacity: 1;
     transform: translateY(0) scale(1);
-    opacity: 0.9;
   }
 
   /* Room aura */
-  .room {
+  .roomAura {
     filter: drop-shadow(0 0 80px rgba(120,180,255,0.4));
   }
 
@@ -98,10 +98,35 @@
     width: 100%;
     text-align: center;
     font-size: 32px;
-    color: #ffffff;
+    color: #fff;
     opacity: 0;
     transition: opacity 0.6s ease;
-    letter-spacing: 0.05em;
+  }
+
+  /* --- PIXEL ROOM SCENE --- */
+  #pixelScene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  #roomBG {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #pixelIvie {
+    position: absolute;
+    width: 300px;
+    image-rendering: pixelated;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.6s ease;
   }
 </style>
 </head>
@@ -109,37 +134,50 @@
 <body>
 <div id="stage">
 
-  <div id="ivie" class="ivie sleep">
-    <div class="ivie-face">
-      <div class="ivie-eye left"></div>
-      <div class="ivie-eye right"></div>
-      <div class="ivie-mouth"></div>
+  <!-- Mood Scene -->
+  <div id="circleIvie" class="sleep">
+    <div id="circleIvieFace">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="mouth"></div>
     </div>
   </div>
 
   <div id="mood">You Woke Up Happy</div>
 
+  <!-- Pixel Scene -->
+  <div id="pixelScene">
+    <img id="roomBG" src="ROOM_BASE64_HERE">
+    <img id="pixelIvie" src="SLEEP_BASE64_HERE">
+  </div>
+
 </div>
 
 <script>
-  const ivie = document.getElementById('ivie');
+  const circle = document.getElementById('circleIvie');
   const mood = document.getElementById('mood');
+  const pixelScene = document.getElementById('pixelScene');
+  const pixelIvie = document.getElementById('pixelIvie');
 
-  function setState(list) {
-    ivie.className = 'ivie ' + list.join(' ');
-  }
+  /* Circle Ivie animation */
+  setTimeout(() => circle.className = "sit", 1200);
+  setTimeout(() => circle.className = "sit roomAura", 2400);
+  setTimeout(() => mood.style.opacity = 1, 3600);
 
-  // Sleep → Sit → Room → Mood text
-  setTimeout(() => setState(['sit']), 1200);
-  setTimeout(() => setState(['sit', 'room']), 2400);
+  /* Transition to pixel scene */
   setTimeout(() => {
-    mood.style.opacity = 1;
-  }, 3600);
+    circle.style.opacity = 0;
+    mood.style.opacity = 0;
+  }, 5200);
 
-  // You can change this text each day:
-  // mood.innerText = "You Woke Up Tired";
-  // mood.innerText = "You Woke Up Excited";
-  // mood.innerText = "You Woke Up Nervous";
+  setTimeout(() => {
+    pixelScene.style.opacity = 1;
+  }, 6200);
+
+  /* Pixel Ivie wakes up */
+  setTimeout(() => {
+    pixelIvie.src = "SIT_BASE64_HERE";
+  }, 7600);
 </script>
 
 </body>
