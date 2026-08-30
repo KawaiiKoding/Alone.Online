@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Alone.Online</title>
-
 <style>
   body {
     margin: 0;
     background: #000;
+    color: #fff;
+    font-family: system-ui, sans-serif;
     overflow: hidden;
-    font-family: monospace;
   }
 
   #stage {
@@ -22,25 +22,73 @@
     justify-content: center;
   }
 
-  #ivie {
-    width: 260px;
-    image-rendering: pixelated;
-    transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+  .ivie {
+    width: 220px;
+    height: 220px;
+    border-radius: 999px;
+    background: #202020;
+    position: relative;
+    box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
   }
 
-  /* STATES */
+  .ivie-face {
+    width: 140px;
+    height: 140px;
+    border-radius: 999px;
+    background: #f5c7a8;
+    position: relative;
+  }
+
+  .ivie-eye {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #000;
+    top: 45px;
+  }
+  .ivie-eye.left { left: 35px; }
+  .ivie-eye.right { right: 35px; }
+
+  .ivie-mouth {
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    border-radius: 0 0 60px 60px;
+    background: #ff3b3b;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Sleep state */
   .sleep {
+    transform: translateY(40px) scale(0.9);
     opacity: 0.7;
-    transform: scale(0.9) translateY(20px);
+  }
+  .sleep .ivie-eye {
+    height: 6px;
+    top: 55px;
+    border-radius: 999px;
+  }
+  .sleep .ivie-mouth {
+    height: 10px;
+    background: #000;
   }
 
+  /* Sit state */
   .sit {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translateY(0) scale(1);
+    opacity: 0.9;
   }
 
+  /* Room aura */
   .room {
-    filter: drop-shadow(0 0 20px #7ab8ff);
+    filter: drop-shadow(0 0 80px rgba(120,180,255,0.4));
   }
 
   /* Mood text */
@@ -61,9 +109,13 @@
 <body>
 <div id="stage">
 
-  <!-- Pixel Ivie -->
-  <img id="ivie" class="sleep"
-       src="PASTE_YOUR_IVIE_BASE64_HERE">
+  <div id="ivie" class="ivie sleep">
+    <div class="ivie-face">
+      <div class="ivie-eye left"></div>
+      <div class="ivie-eye right"></div>
+      <div class="ivie-mouth"></div>
+    </div>
+  </div>
 
   <div id="mood">You Woke Up Happy</div>
 
@@ -74,7 +126,7 @@
   const mood = document.getElementById('mood');
 
   function setState(list) {
-    ivie.className = list.join(' ');
+    ivie.className = 'ivie ' + list.join(' ');
   }
 
   // Sleep → Sit → Room → Mood text
