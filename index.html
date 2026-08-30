@@ -25,7 +25,7 @@
   #ivie {
     width: 260px;
     image-rendering: pixelated;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
   }
 
   /* STATES */
@@ -43,28 +43,17 @@
     filter: drop-shadow(0 0 20px #7ab8ff);
   }
 
-  .shocked {
-    filter: drop-shadow(0 0 30px #ff4b4b);
-  }
-
-  /* Dialogue */
-  #dialogue {
+  /* Mood text */
+  #mood {
     position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    border: 2px solid #ff4b4b;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 20px;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    color: #ffffff;
     opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  #dialogue .name {
-    color: #ff4b4b;
-    font-weight: bold;
+    transition: opacity 0.6s ease;
+    letter-spacing: 0.05em;
   }
 </style>
 </head>
@@ -72,32 +61,33 @@
 <body>
 <div id="stage">
 
-  <!-- YOUR PIXEL IVIE SPRITE -->
+  <!-- Pixel Ivie -->
   <img id="ivie" class="sleep"
-       src="data:image/png;base64,PASTE_YOUR_PIXEL_IVIE_BASE64_HERE">
+       src="PASTE_YOUR_IVIE_BASE64_HERE">
 
-  <div id="dialogue">
-    <span class="name">Ivie:</span>
-    <span class="line">Summer's over already!?</span>
-  </div>
+  <div id="mood">You Woke Up Happy</div>
 
 </div>
 
 <script>
   const ivie = document.getElementById('ivie');
-  const dialogue = document.getElementById('dialogue');
+  const mood = document.getElementById('mood');
 
   function setState(list) {
     ivie.className = list.join(' ');
   }
 
-  // Sleep → Sit → Room → Shocked + Dialogue
+  // Sleep → Sit → Room → Mood text
   setTimeout(() => setState(['sit']), 1200);
   setTimeout(() => setState(['sit', 'room']), 2400);
   setTimeout(() => {
-    setState(['room', 'shocked']);
-    dialogue.style.opacity = 1;
+    mood.style.opacity = 1;
   }, 3600);
+
+  // You can change this text each day:
+  // mood.innerText = "You Woke Up Tired";
+  // mood.innerText = "You Woke Up Excited";
+  // mood.innerText = "You Woke Up Nervous";
 </script>
 
 </body>
